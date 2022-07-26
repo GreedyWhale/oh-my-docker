@@ -11,11 +11,19 @@ RUN cp /etc/apt/sources.list /etc/apt/sources.list.backup
 COPY ./sources.list /etc/apt/sources.list
 
 RUN apt-get update
+
 # 安装开发时的工具，-y 表示在安装时自动回答 yes
 RUN apt-get install -y git zsh curl vim
+
+# 安装 oh my zsh
 RUN sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 # 替换on my zsh 主题为 ys
 RUN sed -i 's/robbyrussell/ys/g' ~/.zshrc
+
+# 安装 nvm
+RUN /bin/zsh -c "$(curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash)"
+RUN echo 'export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"\n[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm' >> ~/.zshrc
+
 # 因为默认的sh没有source命令，所以这里使用 zsh 去执行 "source ~/.zshrc"
 RUN /bin/zsh -c "source ~/.zshrc"
 # 注意这里需要双引号，否则会报找不到命令的错误
