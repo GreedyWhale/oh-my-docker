@@ -1,0 +1,22 @@
+# 系统环境
+FROM ubuntu:latest
+
+
+# 更新 apt 储存库，不更新会报找不到包的错误
+RUN apt-get update
+RUN apt-get install -y ca-certificates apt-transport-https
+
+# 修改 apt 源为国内源
+RUN cp /etc/apt/sources.list /etc/apt/sources.list.backup
+COPY ./sources.list /etc/apt/sources.list
+
+RUN apt-get update
+# 安装开发时的工具，-y 表示在安装时自动回答 yes
+RUN apt-get install -y git zsh curl vim
+RUN sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+# 替换on my zsh 主题为 ys
+RUN sed -i 's/robbyrussell/ys/g' ~/.zshrc
+# 因为默认的sh没有source命令，所以这里使用 zsh 去执行 "source ~/.zshrc"
+RUN /bin/zsh -c "source ~/.zshrc"
+# 注意这里需要双引号，否则会报找不到命令的错误
+CMD ["zsh"]
