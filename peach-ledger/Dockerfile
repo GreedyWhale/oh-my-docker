@@ -25,4 +25,11 @@ RUN corepack enable
 # see https://stackoverflow.com/a/72216805
 RUN rvm install ruby-3.1.2
 RUN rvm --default use ruby-3.1.2
+
+# 修改gem和bundle源为国内源
+RUN gem sources --add https://gems.ruby-china.com/ --remove https://rubygems.org/
+RUN bundle config mirror.https://rubygems.org https://gems.ruby-china.com
+RUN gem update --system
+RUN gem install rails
+
 SHELL ["/bin/zsh", "--login", "-c"]
