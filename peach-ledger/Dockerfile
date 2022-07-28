@@ -32,4 +32,6 @@ RUN bundle config mirror.https://rubygems.org https://gems.ruby-china.com
 RUN gem update --system
 RUN gem install rails
 
+# 为了让vscode的 remote container的shell设置为zsh
+ENV SHELL /bin/zsh
 SHELL ["/bin/zsh", "--login", "-c"]
