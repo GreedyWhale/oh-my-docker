@@ -4,10 +4,11 @@ WORKDIR /root/repos
 
 VOLUME ["/root/repos"]
 
-# 安装rvm
 RUN apt-get update
 # 不安装 libpq-dev 会导致 Could not find gem 'pg (~> 1.1)' in locally installed gems. 的报错
 RUN apt-get install -y gnupg2 libpq-dev
+
+# 安装rvm
 RUN gpg2 --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 7D2BAF1CF37B13E2069D6956105BD0E739499BDB
 RUN /bin/zsh -c 'curl -sSL https://get.rvm.io | bash -s stable'
 # 修改rvm源为国内镜像
