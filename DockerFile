@@ -13,7 +13,7 @@ COPY ./sources.list /etc/apt/sources.list
 RUN apt-get update
 
 # 安装开发时的工具，-y 表示在安装时自动回答 yes
-RUN apt-get install -y git zsh curl vim
+RUN apt-get install -y git zsh curl vim iputils-ping
 
 # 安装 oh my zsh
 RUN sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
